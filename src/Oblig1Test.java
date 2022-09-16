@@ -1,52 +1,75 @@
-// import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import static org.junit.jupiter.api.Assertions.*;
 
 class Oblig1Test {
-    // TODO Remove main method and 'public static' on Tests
+    private final int[] ASCENDING_ARRAY = {3, 3, 4, 5, 5, 6, 7, 7, 7, 8};
 
-    public static void main(String[] args) {
-        // Oblig1Test.antallUlikeSortert();
-        // Oblig1Test.antallUlikeUsortert();
+    private final int[] NOT_ASCENDING_ARRAY = {3, 7, 4, 5, 5, 6, 7, 7, 7, 8};
 
-        Oblig1Test.delsortering();
-    }
-    // @Test
-    public static void antallUlikeSortert() {
-        // TODO consider parameterized test
-        // test om den returnerer riktig antall forskjellige verdier
-        int[] arrayListAscending = new int[]{
-                3,  3,  4,  5,  5,  6,  7,  7,  7, 8
-        };
-        int result = Oblig1.antallUlikeSortert(arrayListAscending);
+    @Test
+    void maks() {
+        // Setup
+        int expectedResult = 8;
 
-        int[] arrayListNotAscending = new int[]{
-                3,  7,  4,  5,  5,  6,  7,  7,  7, 8
-        };
-        int resultNotAscending = Oblig1.antallUlikeSortert(arrayListNotAscending);
+        // Perform
+        int actualResult = Oblig1.maks(ASCENDING_ARRAY);
 
-        System.out.println("sortert = " + resultNotAscending);
+        // Assert
+        assertEquals(expectedResult, actualResult);
     }
 
-    // @Test
-    public static void antallUlikeUsortert() {
-        // test om den er sortert stigende el at exception blir kastet
+    @Test
+    void antallUlikeSortert() {
+        // Setup
+        int expectedResult = 6;
 
-        // test om den returnerer riktig antall forskjellige verdier
-        int[] arrayList = new int[]{
-                3,  3,  4,  5,  5,  6,  7,  7,  7, 8
-        };
-        int result = Oblig1.antallUlikeUsortert(arrayList);
+        // Perform
+        int actualResult = Oblig1.antallUlikeSortert(ASCENDING_ARRAY);
 
-        System.out.println(result);
-        // test med tom array at 0 blir returnert
+        // Assert
+        assertEquals(expectedResult, actualResult);
     }
-    // @Test
-    public static void delsortering() {
-        int[] a = {6,10,9,4,1,3,8,5,2,7};
-        Oblig1.delsortering(a);
-        System.out.println(Arrays.toString(a));
 
-        // Utskrift: [1, 3, 5, 7, 9, 2, 4, 6, 8, 10]
+    @Test
+    void antallUlikeSortertThrowException() {
+        // Setup
+        String expectedMessage = "This array is not in ascending order";
+
+        // Perform
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            Oblig1.antallUlikeSortert(NOT_ASCENDING_ARRAY);
+        });
+        String actualMessage = exception.getMessage();
+
+        // Assert
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    void antallUlikeUsortert() {
+        // Setup
+        int expectedResult = 6;
+
+        // Perform
+        int actualResult = Oblig1.antallUlikeUsortert(NOT_ASCENDING_ARRAY);
+
+        // Assert
+        assertEquals(expectedResult, actualResult);
+    }
+
+    @Disabled
+    @Test
+    void delsortering() {
+        // Setup
+        int[] array = {6, 10, 9, 4, 1, 3, 8, 5, 2, 7};
+        int[] expectedArray = {1, 3, 5, 7, 9, 2, 4, 6, 8, 10};
+
+        // Perform
+        Oblig1.delsortering(array);
+
+        // Assert
+        assertArrayEquals(expectedArray, array);
     }
 }
